@@ -1,0 +1,25 @@
+version: "3.0"
+services:
+    # primeiro container, nome container_mysql
+    container_mysql:
+        # image container de mysql
+        image: mysql
+        # variavel de ambiente
+        enviroment: 
+            MYSQL_DATABASE: "casadocodigo"
+            # acesso sem senhas
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+    #nome do container 2        
+    container_casadocodigo:
+        image: "casadocodigo:vi-dev"
+        ports:
+            # mapeando a porta 8080 do tomcat para a porta 80 do meu localhost
+            - 80:8080
+        enviroment:
+            USUARIO: "root"
+            SENHA: ""
+            JDBC_CONNECTION_STRING: "jdbc:mysql//container_mysql:3308/casadocodigo"
+        # mostra a dependencia deste container
+        depends_on: 
+            - container_mysql
